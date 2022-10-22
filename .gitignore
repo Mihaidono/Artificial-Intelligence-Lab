@@ -127,6 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+<<<<<<< HEAD
+*.iml
+*.xml
+Laborator1/.idea/.gitignore
+Laborator1_hw/.idea/.gitignore
+Laborator2/.idea/.gitignore
+=======
 *.gitignore
 *.iml
 *.xml
+>>>>>>> main

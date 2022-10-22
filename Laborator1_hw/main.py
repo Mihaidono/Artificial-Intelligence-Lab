@@ -31,6 +31,30 @@ print("\nAverage values of corresponding columns:", col_average_array)
 print("\nMedian values of corresponding columns:", col_median_array)
 
 # exercise 3
+normed_data_set = np.array([])
 for i in range(0, 4):
     normed_data_set = (data_array[:, i] - min(data_array[:, i])) / (max(data_array[:, i]) - min(data_array[:, i]))
+
 print("\nThe data set with each column normed value: \n", normed_data_set)
+
+# exercise 4
+weights_array = [0.2, 1.1, -0.9, 1]
+
+new_column_array = []
+
+print("New columns to be added:")
+for i in range(0, np.shape(data_array)[0]):
+    row_sum = 0
+    for j in range(0, 4):
+        row_sum += row_sum + data_array[i][j] * weights_array[j]
+    new_column_array.append(row_sum)
+    print("[%s]" % row_sum)
+
+print("New data set with added column:")
+
+new_data_set = np.array(new_column_array)
+new_data_array = np.insert(data_array, 0, new_data_set, axis=1)
+
+print(new_data_array)
+
+#exercise 5

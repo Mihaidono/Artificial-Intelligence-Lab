@@ -129,3 +129,6 @@ dmypy.json
 .pyre/
 *.iml
 *.xml
+Laborator1/.idea/.gitignore
+Laborator1_hw/.idea/.gitignore
+Laborator2/.idea/.gitignore

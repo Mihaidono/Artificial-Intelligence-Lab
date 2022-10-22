@@ -57,4 +57,69 @@ new_data_array = np.insert(data_array, 0, new_data_set, axis=1)
 
 print(new_data_array)
 
-#exercise 5
+# exercise 5
+
+binary_numbers_file = open("optdigits-orig.tra")
+# skip first 22 lines in the file
+for i in range(0, 21):
+    print(binary_numbers_file.readline())
+
+
+def checkValues(value1, value2, value3, value4):
+    counter = 0
+    value_vector = [value1, value2, value3, value4]
+    for value in value_vector:
+        if value == '0':
+            counter += 1
+    if counter > 2:
+        return '0'
+    return '1'
+
+
+def scaleFunction(binary_number_array):
+    new_binary_number_array = []
+    for row in range(0, 32, 2):
+        new_row = []
+        for column in range(0, 32, 2):
+            new_row.append(checkValues(binary_number_array[row][column], binary_number_array[row][column + 1],
+                                       binary_number_array[row + 1][column], binary_number_array[row + 1][column + 1]))
+        new_binary_number_array.append(new_row)
+    return new_binary_number_array
+
+
+def imageToString(binary_image):
+    new_string = ""
+    for row in binary_image:
+        for character in row:
+            new_string += character
+        new_string += "\n"
+    return new_string
+
+
+counter = 1
+binary_number_array = []
+
+new_file = open("newBinaryFile.txt", "w")
+new_file.close()
+
+for line in binary_numbers_file:
+    if len(line) < 31:
+        new_file = open("newBinaryFile.txt", "a")
+        new_line = "\n->" + line
+        new_file.write(new_line)
+        new_file.close()
+        continue
+
+    row = []
+    for i in range(0, len(line) - 1):
+        row.append(line[i])
+    binary_number_array.append(row)
+
+    if counter % 32 == 0:
+        new_file = open("newBinaryFile.txt", "a")
+        new_file.write(imageToString(scaleFunction(binary_number_array)))
+        new_file.close()
+
+        binary_number_array = []
+    counter += 1
+binary_numbers_file.close()

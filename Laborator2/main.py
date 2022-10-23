@@ -34,11 +34,30 @@ x_y_angle = (scalar_prod) / (xNorm * yNorm)
 
 print("The angle between x and y is %.4f " % x_y_angle)
 
+
 # exercise 2
 
-point_number = input("Select the number of points: ")
+def sgnClassFunction(point):
+    if np.sign(np.sum(point)) >= 1:
+        return 1
+    return -1
 
-print("Input your points: ")
 
-for i in range(0,point_number):
-    
+node_number = int(input("Select the number of nodes: "))
+
+print("Nodes look like this: P(x,y,z).\n"
+      "Input values in this way for correct results!"
+      "\n->Input your nodes: ")
+node_array = []
+
+for i in range(0, node_number):
+    print("Node %s: " % i)
+    node_variables = []
+    for j in range(0, 3):
+        elem = int(input())
+        node_variables.append(elem)
+    node_array.append(node_variables)
+
+node_array = np.array(node_array)
+
+

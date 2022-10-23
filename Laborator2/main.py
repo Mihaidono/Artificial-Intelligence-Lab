@@ -36,3 +36,9 @@ print("The angle between x and y is %.4f " % x_y_angle)
 
 # exercise 2
 
+point_number = input("Select the number of points: ")
+
+print("Input your points: ")
+
+for i in range(0,point_number):
+    

@@ -34,13 +34,7 @@ x_y_angle = (scalar_prod) / (xNorm * yNorm)
 
 print("The angle between x and y is %.4f " % x_y_angle)
 
-
 # exercise 2
-
-def sgnClassFunction(point):
-    if np.sign(np.sum(point)) >= 1:
-        return 1
-    return -1
 
 
 node_number = int(input("Select the number of nodes: "))
@@ -60,4 +54,8 @@ for i in range(0, node_number):
 
 node_array = np.array(node_array)
 
-
+for i in range(0, node_number):
+    if np.sign(np.sum(node_array[i])) == 1:
+        print("Node %s (%s,%s,%s) belongs to Class 1 " % (i, node_array[i][0], node_array[i][1], node_array[i][2]))
+    elif np.sign(np.sum(node_array[i])) == -1:
+        print("Node %s (%s,%s,%s) belongs to Class 2 " % (i, node_array[i][0], node_array[i][1], node_array[i][2]))

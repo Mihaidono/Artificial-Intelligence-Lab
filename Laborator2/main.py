@@ -2,60 +2,87 @@ import math
 
 import numpy as np
 
+
 # exercise 1
+def exercise1():
+    x = [2, 1, 2]
+    y = [1, -1, 4]
 
-x = [2, 1, 2]
-y = [1, -1, 4]
+    x_length = len(x)
+    y_length = len(y)
 
-x_length = len(x)
-y_length = len(y)
+    xTransposed = np.transpose(x)
+    yTransposed = np.transpose(y)
 
-xTransposed = np.transpose(x)
-yTransposed = np.transpose(y)
+    scalar_prod = 0
+    for i in range(0, x_length):
+        scalar_prod += xTransposed[i] * y[i]
+    print("This is the dot product of x,y: ", scalar_prod)
 
-scalar_prod = 0
-for i in range(0, x_length):
-    scalar_prod += xTransposed[i] * y[i]
-print("This is the dot product of x,y: ", scalar_prod)
+    sum = 0
+    for i in range(0, x_length):
+        sum += pow(x[i], 2)
+    xNorm = math.sqrt(sum)
 
-sum = 0
-for i in range(0, x_length):
-    sum += pow(x[i], 2)
-xNorm = math.sqrt(sum)
+    print("This is the euclidian norm of the x value: ", xNorm)
+    sum = 0
+    for i in range(0, y_length):
+        sum += pow(y[i], 2)
+    yNorm = math.sqrt(sum)
+    print("This is the euclidian norm of the y value: %.2f" % yNorm)
 
-print("This is the euclidian norm of the x value: ", xNorm)
-sum = 0
-for i in range(0, y_length):
-    sum += pow(y[i], 2)
-yNorm = math.sqrt(sum)
-print("This is the euclidian norm of the y value: %.2f" % yNorm)
+    x_y_angle = (scalar_prod) / (xNorm * yNorm)
 
-x_y_angle = (scalar_prod) / (xNorm * yNorm)
+    print("The angle between x and y is %.4f " % x_y_angle)
 
-print("The angle between x and y is %.4f " % x_y_angle)
 
 # exercise 2
+def exercise2():
+    node_number = int(input("Select the number of nodes: "))
+
+    print("Nodes look like this: P(x,y,z).\n"
+          "Input values in this way for correct results!"
+          "\n->Input your nodes: ")
+    node_array = []
+
+    for i in range(0, node_number):
+        print("Node %s: " % i)
+        node_variables = []
+        for j in range(0, 3):
+            elem = int(input())
+            node_variables.append(elem)
+        node_array.append(node_variables)
+
+    node_array = np.array(node_array)
+
+    for i in range(0, node_number):
+        if np.sign(np.sum(node_array[i])) == 1:
+            print("Node %s (%s,%s,%s) belongs to Class 1 " % (i, node_array[i][0], node_array[i][1], node_array[i][2]))
+        elif np.sign(np.sum(node_array[i])) == -1:
+            print("Node %s (%s,%s,%s) belongs to Class 2 " % (i, node_array[i][0], node_array[i][1], node_array[i][2]))
 
 
-node_number = int(input("Select the number of nodes: "))
+# exercise 3
 
-print("Nodes look like this: P(x,y,z).\n"
-      "Input values in this way for correct results!"
-      "\n->Input your nodes: ")
-node_array = []
+def my_sgn(nr):
+    if nr > 0:
+        return 1
+    return 0
 
-for i in range(0, node_number):
-    print("Node %s: " % i)
-    node_variables = []
-    for j in range(0, 3):
-        elem = int(input())
-        node_variables.append(elem)
-    node_array.append(node_variables)
 
-node_array = np.array(node_array)
+binary_number_array = [[1, 1, 1, 1, 0, 1, 1, 1, 1],
+                       [0, 1, 0, 1, 0, 1, 0, 1, 0],
+                       [0, 1, 0, 0, 1, 0, 0, 1, 0],
+                       [1, 1, 0, 0, 1, 0, 0, 1, 0]]
 
-for i in range(0, node_number):
-    if np.sign(np.sum(node_array[i])) == 1:
-        print("Node %s (%s,%s,%s) belongs to Class 1 " % (i, node_array[i][0], node_array[i][1], node_array[i][2]))
-    elif np.sign(np.sum(node_array[i])) == -1:
-        print("Node %s (%s,%s,%s) belongs to Class 2 " % (i, node_array[i][0], node_array[i][1], node_array[i][2]))
+weight_array = [-0.14, 0.06, -0.28, -0.93, -0.08, 0.28, -0.64, 0.47, -0.85]
+
+output_array = []
+for number in range(0, len(binary_number_array)):
+    output_array.append(my_sgn(np.dot(binary_number_array[number], weight_array)))
+
+for i in range(0, 4):
+    if output_array[i] == 1:
+        print("Numarul din matricea %s este 1" % i)
+    elif output_array[i] == 0:
+        print("Numarul din matricea %s este 0" % i)

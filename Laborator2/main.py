@@ -63,26 +63,25 @@ def exercise2():
 
 
 # exercise 3
+def exercise3():
+    def my_sgn(nr):
+        if nr > 0:
+            return 1
+        return 0
 
-def my_sgn(nr):
-    if nr > 0:
-        return 1
-    return 0
+    binary_number_array = [[0, 1, 1, 1, 0, 1, 1, 0, 0],  # [1, 1, 1, 1, 0, 1, 1, 1, 1] <- original data
+                           [0, 1, 0, 1, 0, 1, 0, 1, 0],
+                           [0, 1, 0, 0, 1, 0, 0, 1, 0],
+                           [1, 1, 0, 0, 1, 0, 0, 1, 0]]
 
+    weight_array = [-0.14, 0.06, -0.28, -0.93, -0.08, 0.28, -0.64, 0.47, -0.85]
 
-binary_number_array = [[1, 1, 1, 1, 0, 1, 1, 1, 1],
-                       [0, 1, 0, 1, 0, 1, 0, 1, 0],
-                       [0, 1, 0, 0, 1, 0, 0, 1, 0],
-                       [1, 1, 0, 0, 1, 0, 0, 1, 0]]
+    output_array = []
+    for number in range(0, len(binary_number_array)):
+        output_array.append(my_sgn(np.dot(binary_number_array[number], weight_array)))
 
-weight_array = [-0.14, 0.06, -0.28, -0.93, -0.08, 0.28, -0.64, 0.47, -0.85]
-
-output_array = []
-for number in range(0, len(binary_number_array)):
-    output_array.append(my_sgn(np.dot(binary_number_array[number], weight_array)))
-
-for i in range(0, 4):
-    if output_array[i] == 1:
-        print("Numarul din matricea %s este 1" % i)
-    elif output_array[i] == 0:
-        print("Numarul din matricea %s este 0" % i)
+    for i in range(0, 4):
+        if output_array[i] == 1:
+            print("Numarul din matricea %s este 1" % i)
+        elif output_array[i] == 0:
+            print("Numarul din matricea %s este 0" % i)

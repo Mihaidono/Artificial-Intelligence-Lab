@@ -3,6 +3,12 @@ import math
 import numpy as np
 
 
+def my_sgn(nr):
+    if nr > 0:
+        return 1
+    return 0
+
+
 # exercise 1
 def exercise1():
     x = [2, 1, 2]
@@ -64,11 +70,6 @@ def exercise2():
 
 # exercise 3
 def exercise3():
-    def my_sgn(nr):
-        if nr > 0:
-            return 1
-        return 0
-
     binary_number_array = [[0, 1, 1, 1, 0, 1, 1, 0, 0],  # [1, 1, 1, 1, 0, 1, 1, 1, 1] <- original data
                            [0, 1, 0, 1, 0, 1, 0, 1, 0],
                            [0, 1, 0, 0, 1, 0, 0, 1, 0],

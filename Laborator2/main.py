@@ -1,4 +1,5 @@
 import math
+import random
 
 import numpy as np
 
@@ -86,3 +87,25 @@ def exercise3():
             print("Numarul din matricea %s este 1" % i)
         elif output_array[i] == 0:
             print("Numarul din matricea %s este 0" % i)
+
+
+# exercise 4
+
+initial_output = []
+next_output = []
+
+
+def getOutput(output1, output2, output3):
+    if output2 - output3 == 0:
+        return output1
+    return np.sign(output2 - output3)
+
+
+iterations = 0
+while abs(next_output[0] - initial_output[0]) + abs(next_output[1] - initial_output[1]) + abs(
+        next_output[2] - initial_output[2]) > 0:
+    iterations += 1
+    next_output[0] = getOutput(next_output[0], initial_output[1], initial_output[2])
+    next_output[1] = getOutput(next_output[1], initial_output[0], initial_output[2])
+    next_output[2] = getOutput(next_output[2], initial_output[0], initial_output[1])
+    print("Outputs for iteration %s:\n %s\n%s\n%s" % (iterations, next_output[0], next_output[1], next_output[2]))

@@ -145,3 +145,6 @@ Laborator2/.idea/misc.xml
 Laborator2/.idea/modules.xml
 Laborator2/.idea/vcs.xml
 Laborator2/.idea/inspectionProfiles/profiles_settings.xml
+*.gitignore
+*.iml
+*.xml

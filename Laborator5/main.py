@@ -26,6 +26,7 @@ prototype3 = [random.randint(min_x_axis, max_x_axis), random.randint(min_y_axis,
 
 prototypes = [prototype1, prototype2, prototype3]
 
+print("Original set for the random generated prototypes: ", prototypes)
 # going through the epochs
 for i in range(0, epoch_number):
     for j in range(0, len(dataset_array)):
@@ -43,3 +44,23 @@ for i in range(0, epoch_number):
         prototypes[distance.index(np.min(distance))] = winner_prototype
         # print(" new array: ", prototypes)
         # lines commented for debug in console
+
+app_array = [[], [], []]
+for j in range(0, len(dataset_array)):
+    distance = []
+    for k in range(0, len(prototypes)):
+        distance.append(math.sqrt(
+            pow(dataset_array[j][0] - prototypes[k][0], 2) + pow(dataset_array[j][1] - prototypes[k][1], 2)))
+    app_array[distance.index(np.min(distance))].append(dataset_array[j])
+
+for j in range(0, len(dataset_array)):
+    distance = []
+    for k in range(0, len(prototypes)):
+        distance.append(math.sqrt(
+            pow(dataset_array[j][0] - prototypes[k][0], 2) + pow(dataset_array[j][1] - prototypes[k][1], 2)))
+    app_array[distance.index(np.min(distance))].append(dataset_array[j])
+    app_array[distance.index(np.min(distance))].append(dataset_array[j])
+
+print("For the updated prototype set:")
+for i in range(0, len(app_array)):
+    print("For prototype ", i, " belong: ", app_array[i])

@@ -53,14 +53,7 @@ for j in range(0, len(dataset_array)):
             pow(dataset_array[j][0] - prototypes[k][0], 2) + pow(dataset_array[j][1] - prototypes[k][1], 2)))
     app_array[distance.index(np.min(distance))].append(dataset_array[j])
 
-for j in range(0, len(dataset_array)):
-    distance = []
-    for k in range(0, len(prototypes)):
-        distance.append(math.sqrt(
-            pow(dataset_array[j][0] - prototypes[k][0], 2) + pow(dataset_array[j][1] - prototypes[k][1], 2)))
-    app_array[distance.index(np.min(distance))].append(dataset_array[j])
-    app_array[distance.index(np.min(distance))].append(dataset_array[j])
-
+print("New prototypes: ", prototypes)
 print("For the updated prototype set:")
 for i in range(0, len(app_array)):
     print("For prototype ", i, " belong: ", app_array[i])

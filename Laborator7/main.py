@@ -22,4 +22,4 @@ def objective_function(sum_array, mult_array):
 
 population_size = 50  # change this to change the number of elements in the array
 
-
+population_array=np.array()

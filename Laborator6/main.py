@@ -2,6 +2,13 @@ import random
 
 import numpy as np
 
+
+def formCluster(dictionary):
+
+
+def checkCentroids(centroid_array):
+
+
 number_of_clusters = 3
 # usually it needs to be calculated but for this
 # example I already knew how many clusters there are
@@ -20,8 +27,8 @@ while True:
     if len(centroid_array) == number_of_clusters:
         break
 
-countIsSame = 0
-while countIsSame < 3:
+countIsSame = 0  # check if the centroids change, if they don't then I found the clusters
+while countIsSame < 3:  # chose a random value for the number of comparisons
     clusters = {}
     for i in range(0, len(node_array)):
         print("Centroids chosen for this iteration: ", centroid_array)
@@ -30,6 +37,6 @@ while countIsSame < 3:
             cluster_value.append(
                 abs(centroid_array[j][0] - node_array[i][0]) + abs(centroid_array[j][1] - node_array[i][1]))
             # finding out who the closest centroid is by storing the distance of the point from all the centroids
-
         clusters[cluster_value.index(np.min(cluster_value))] = node_array[i]
-        print(clusters)
+        # stored the value using the index of the centroid as identification for the clusters
+    # de implementat: in functie de indexu pe care il au datele in dictionar trebuie sa fac o medie sa aflu noii centroizi

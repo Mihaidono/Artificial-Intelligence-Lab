@@ -3,6 +3,12 @@ import random
 import numpy as np
 
 
+def printClustersFormed(cluster):
+    print("Clusters formed:")
+    for key, values in cluster.items():
+        print("{} ({})".format(key, values))
+
+
 def initMyDictionary(clusters_number):
     dictionary = {}
     for i in range(0, clusters_number):
@@ -10,10 +16,11 @@ def initMyDictionary(clusters_number):
     return dictionary
 
 
-def formCluster(dictionary):
-
-
-def checkCentroids(centroid_array):
+def checkCentroids(old_centroids, new_centroids):
+    for i in range(0, len(new_centroids)):
+        if new_centroids[i] != old_centroids[i]:
+            return 1  # returns 1 if the centroids have changed
+    return -1  # returns -1 if the centroids are the same
 
 
 number_of_clusters = 3
@@ -35,10 +42,13 @@ while True:
         break
 
 countIsSame = 0  # check if the centroids change, if they don't then I found the clusters
-while countIsSame < 3:  # chose a random value for the number of comparisons
+last_centroids = [0] * number_of_clusters  # check if the centroids have changed during iterations
+fail_safe = 1  # in case it doesn't find the correct centroids
+
+while countIsSame < 3 and fail_safe != 100:  # chose a random value for the number of comparisons
     clusters = initMyDictionary(number_of_clusters)
+    print("Centroids chosen for this iteration: ", centroid_array)
     for i in range(0, len(node_array)):
-        print("Centroids chosen for this iteration: ", centroid_array)
         cluster_value = []
         for j in range(0, number_of_clusters):
             cluster_value.append(
@@ -46,5 +56,8 @@ while countIsSame < 3:  # chose a random value for the number of comparisons
             # finding out who the closest centroid is by storing the distance of the point from all the centroids
         clusters[cluster_value.index(np.min(cluster_value))].append(node_array[i])
         # stored the value using the index of the centroid as identification for the clusters
-
-    # de implementat: in functie de indexu pe care il au datele in dictionar trebuie sa fac o medie sa aflu noii centroizi
+    printClustersFormed(clusters)
+    fail_safe += 1
+    if last_centroids == centroid_array:
+        countIsSame += 1
+    last_centroids = centroid_array

@@ -72,6 +72,8 @@ def objective_function(sum_array, mult_array):
 
 population_size = 50  # change this to change the number of elements in the array
 
+generation_count = 10  # change this to change how many times the algorithm is repeated for a data set
+# to implement a whileloop for it
 population_array = formPopulationArray(population_size)
 
 selection_prob_array = GetSelectionProbabilityArray(population_array)
@@ -91,5 +93,3 @@ selection_prob_array.pop(len(selection_prob_array))
 population_array.pop(len(population_array))
 selection_prob_array.pop(len(selection_prob_array))
 # cut the last 2 elements off of the selection probability and population array which are consistent with one another
-
-

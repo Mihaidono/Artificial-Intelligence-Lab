@@ -25,11 +25,27 @@ def GetSelectionProbabilityArray(ppl_array):
         aux_prod = 1
         for j in range(0, len(aux_array)):
             if aux_array[j] == 0:
-                aux_sum += aux_array[j]
+                aux_sum += card_value_array[j]
             else:
-                aux_prod *= aux_array[j]
+                aux_prod *= card_value_array[j]
         sp_array.append(objective_function(aux_sum, aux_prod))
     return sp_array
+
+
+def SortSelectionProbabilityResults(ppl_array, sp_array):
+    # both population array and selection probability array are the same size
+    for i in range(0, len(sp_array) - 1):
+        for j in range(i + 1, len(sp_array)):
+            if sp_array[i] > sp_array[j]:
+                aux_sp = sp_array[i]
+                aux_ppl = ppl_array[i]
+                # went for a classic sorting, so I can sort in parallel the first array considering the second one
+                sp_array[i] = sp_array[j]
+                ppl_array[i] = ppl_array[j]
+
+                sp_array[j] = aux_sp
+                ppl_array[j] = aux_ppl
+    return ppl_array, sp_array
 
 
 # for this card game we want to split the deck into 2 and sum the first half and make it as close as
@@ -40,6 +56,8 @@ wanted_sum = int(input())
 # and this input variable will be the product of the other half of the deck:
 print("Enter the product you want the second half to have: ")
 wanted_prod = int(input())
+
+card_value_array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  # array for the values of the cards I'm about to use in the game
 
 
 # the following function rates how close the values we found are to the wanted ones
@@ -57,3 +75,11 @@ population_size = 50  # change this to change the number of elements in the arra
 population_array = np.array(formPopulationArray(population_size))
 
 selection_prob_array = np.array(GetSelectionProbabilityArray(population_array))
+# for testing:
+print(population_array)
+print("\n", selection_prob_array)
+# ordering the arrays considering the best results:
+population_array, selection_prob_array = SortSelectionProbabilityResults(population_array, selection_prob_array)
+# for testing:
+print(population_array)
+print("\n", selection_prob_array)

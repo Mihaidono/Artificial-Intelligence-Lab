@@ -72,9 +72,9 @@ def objective_function(sum_array, mult_array):
 
 population_size = 50  # change this to change the number of elements in the array
 
-population_array = np.array(formPopulationArray(population_size))
+population_array = formPopulationArray(population_size)
 
-selection_prob_array = np.array(GetSelectionProbabilityArray(population_array))
+selection_prob_array = GetSelectionProbabilityArray(population_array)
 # for testing:
 print(population_array)
 print("\n", selection_prob_array)
@@ -83,5 +83,13 @@ population_array, selection_prob_array = SortSelectionProbabilityResults(populat
 # for testing:
 print(population_array)
 print("\n", selection_prob_array)
+# now I'm going to cut off some members of the population for the selection
 
-# put this here, so I know I can return to THIS commit because most probably I didn't get the requirement right
+population_array.pop(len(population_array))
+selection_prob_array.pop(len(selection_prob_array))
+
+population_array.pop(len(population_array))
+selection_prob_array.pop(len(selection_prob_array))
+# cut the last 2 elements off of the selection probability and population array which are consistent with one another
+
+

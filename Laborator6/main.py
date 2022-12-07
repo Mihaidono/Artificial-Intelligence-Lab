@@ -29,9 +29,6 @@ def getNewCentroids(current_clusters):
 
     for key in current_clusters.keys():
         aux_array = np.array(current_clusters[key])
-        if len(aux_array) == 1:
-            new_centroids_array.append(current_clusters[key])
-            continue
 
         if len(aux_array) == 0:
             new_centroids_array.append(np.array([0, 0]))

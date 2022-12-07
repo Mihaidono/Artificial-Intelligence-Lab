@@ -1,4 +1,21 @@
+import random
+
 import numpy as np
+
+
+def formRandomBinaryArray(length):
+    binary_array = []
+    for i in range(0, length):
+        binary_array.append(random.randint(0, 1))
+    return binary_array
+
+
+def formPopulationArray(length):
+    ppl_array = []
+    for i in range(0, length):
+        ppl_array.append(formRandomBinaryArray(10))
+    return ppl_array
+
 
 # for this card game we want to split the deck into 2 and sum the first half and make it as close as
 # this input variable:
@@ -22,4 +39,4 @@ def objective_function(sum_array, mult_array):
 
 population_size = 50  # change this to change the number of elements in the array
 
-population_array=np.array()
+population_array = np.array(formPopulationArray(population_size))

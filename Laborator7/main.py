@@ -116,10 +116,9 @@ def objective_function(sum_array, mult_array):
 
 population_size = 50  # change this to change the number of elements in the array
 
-generation_count = 100  # change this to change how many times the algorithm is repeated for a data set
 count = 1
 population_array = formPopulationArray(population_size)
-while count <= generation_count:
+while True:
     found = 0
     selection_prob_array = GetSelectionProbabilityArray(population_array)
     # for testing:
@@ -145,7 +144,6 @@ while count <= generation_count:
     population_array.append(population_array[1])
     selection_prob_array.append(selection_prob_array[1])
 
-    print(f"The best card arrangement for iteration{count} is:{population_array[0]}")
     aux_array = population_array[0]
     aux_sum = 0
     aux_prod = 1
@@ -155,7 +153,7 @@ while count <= generation_count:
         else:
             aux_prod *= card_value_array[j]
     if wanted_sum == aux_sum and wanted_prod == aux_prod:
-        print(f"Sum is {aux_sum}, product is {aux_prod}")
+        print(f"Sum is {aux_sum}, product is {aux_prod} after {count} iterations")
         found = 1
         break
     index1, index2 = GetRandomPopulationMembers(population_size)

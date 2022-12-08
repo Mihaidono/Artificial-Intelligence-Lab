@@ -3,6 +3,50 @@ import random
 import numpy as np
 
 
+def GetRandomPopulationMembers(ppl_size):
+    it1 = random.randint(0, ppl_size - 1)
+    while True:
+        it2 = random.randint(0, ppl_size - 1)
+        if it2 != it1:
+            break
+    return it1, it2
+
+
+def mutatePopulation(ppl_array, member_number):
+    index_array = [random.randint(0, len(ppl_array) - 1)]
+    while True:
+        rand = random.randint(0, len(ppl_array) - 1)
+        for index in index_array:
+            if index == rand:
+                continue
+        index_array.append(rand)
+        if len(index_array) == member_number:
+            break
+
+    for index in index_array:
+        rand = random.randint(0, len(card_value_array) - 1)
+        if ppl_array[index][rand] == 0:
+            ppl_array[index][rand] = 1
+        else:
+            ppl_array[index][rand] = 0
+
+    return ppl_array
+
+
+def crossOver(array1, array2):
+    aux_array1 = []
+    aux_array2 = []
+
+    for i in range(0, int(len(array1) / 2)):
+        aux_array1.append(array1[i])
+        aux_array2.append(array2[i])
+    for i in range(int(len(array1) / 2), len(array1)):
+        aux_array1.append(array2[i])
+        aux_array2.append(array1[i])
+
+    return aux_array1, aux_array2
+
+
 def formRandomBinaryArray(length):
     binary_array = []
     for i in range(0, length):
@@ -72,24 +116,48 @@ def objective_function(sum_array, mult_array):
 
 population_size = 50  # change this to change the number of elements in the array
 
-generation_count = 10  # change this to change how many times the algorithm is repeated for a data set
-# to implement a whileloop for it
+generation_count = 100  # change this to change how many times the algorithm is repeated for a data set
+count = 1
 population_array = formPopulationArray(population_size)
+while count <= generation_count:
+    selection_prob_array = GetSelectionProbabilityArray(population_array)
+    # for testing:
+    # print(population_array)
+    # print("\n", selection_prob_array)
+    # ordering the arrays considering the best results:
+    population_array, selection_prob_array = SortSelectionProbabilityResults(population_array, selection_prob_array)
+    # for testing:
+    # print(population_array)
+    # print("\n", selection_prob_array)
+    # now I'm going to cut off some members of the population for the selection
 
-selection_prob_array = GetSelectionProbabilityArray(population_array)
-# for testing:
-print(population_array)
-print("\n", selection_prob_array)
-# ordering the arrays considering the best results:
-population_array, selection_prob_array = SortSelectionProbabilityResults(population_array, selection_prob_array)
-# for testing:
-print(population_array)
-print("\n", selection_prob_array)
-# now I'm going to cut off some members of the population for the selection
+    population_array.pop(len(population_array) - 1)
+    selection_prob_array.pop(len(selection_prob_array) - 1)
 
-population_array.pop(len(population_array))
-selection_prob_array.pop(len(selection_prob_array))
+    population_array.pop(len(population_array) - 1)
+    selection_prob_array.pop(len(selection_prob_array) - 1)
+    # cut the last 2 elements off of the selection probability and population array which are consistent with one another
 
-population_array.pop(len(population_array))
-selection_prob_array.pop(len(selection_prob_array))
-# cut the last 2 elements off of the selection probability and population array which are consistent with one another
+    population_array.append(population_array[0])
+    selection_prob_array.append(selection_prob_array[0])
+
+    population_array.append(population_array[1])
+    selection_prob_array.append(selection_prob_array[1])
+
+    print(f"The best card arrangement for iteration{count} is:{population_array[0]}")
+    aux_array = population_array[0]
+    aux_sum = 0
+    aux_prod = 1
+    for j in range(0, len(aux_array)):
+        if aux_array[j] == 0:
+            aux_sum += card_value_array[j]
+        else:
+            aux_prod *= card_value_array[j]
+    print(f"Sum is {aux_sum}, product is {aux_prod}")
+    index1, index2 = GetRandomPopulationMembers(population_size)
+    crossOver(population_array[index1], population_array[index2])  # cross over for two members
+
+    population_array = mutatePopulation(population_array, 5)
+    # I chose the number 5 just because. There was nothing else to it
+    # Change number 5 to change how many members of the population mutate (one value changes from 0 to 1 or from 1 to 0)
+    count += 1

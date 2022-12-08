@@ -120,6 +120,7 @@ generation_count = 100  # change this to change how many times the algorithm is 
 count = 1
 population_array = formPopulationArray(population_size)
 while count <= generation_count:
+    found = 0
     selection_prob_array = GetSelectionProbabilityArray(population_array)
     # for testing:
     # print(population_array)
@@ -153,7 +154,10 @@ while count <= generation_count:
             aux_sum += card_value_array[j]
         else:
             aux_prod *= card_value_array[j]
-    print(f"Sum is {aux_sum}, product is {aux_prod}")
+    if wanted_sum == aux_sum and wanted_prod == aux_prod:
+        print(f"Sum is {aux_sum}, product is {aux_prod}")
+        found = 1
+        break
     index1, index2 = GetRandomPopulationMembers(population_size)
     crossOver(population_array[index1], population_array[index2])  # cross over for two members
 
@@ -161,3 +165,5 @@ while count <= generation_count:
     # I chose the number 5 just because. There was nothing else to it
     # Change number 5 to change how many members of the population mutate (one value changes from 0 to 1 or from 1 to 0)
     count += 1
+if found == 0:
+    print("Exact arrangement was not found")

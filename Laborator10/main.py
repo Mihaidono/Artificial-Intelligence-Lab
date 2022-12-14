@@ -1,5 +1,6 @@
 import csv
 import random
+import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -12,7 +13,7 @@ def GetDataFromFile():
         for row in csvreader:
             obs_values_x.append(float(row[0]))
             obs_values_y.append(float(row[1]))
-    return obs_values_x, obs_values_y
+    return np.array(obs_values_x), np.array(obs_values_y)
 
 
 def GetFunctionForW1(w1, w2):
@@ -33,6 +34,27 @@ def GetFunctionForW2(w1, w2):
     return ans
 
 
+def plot_regression_line(x, y):
+    # plotting the actual points as scatter plot
+    plt.scatter(x, y, color="b",
+                marker="o", s=30)
+
+    # predicted response vector
+    y_predicted = next_value_w1 * x + next_value_w2
+
+    # plotting the regression line
+    plt.plot(x, y_predicted, color="r")
+
+    # putting labels
+    plt.xlabel('YearsExperience[x]')
+    plt.ylabel('Salary[y]')
+
+    plt.xlim([0, int(x_observed_values[len(x_observed_values) - 1]) + 2])
+    plt.ylim([0, int(y_observed_values[len(y_observed_values) - 1]) + 20])
+    # function to show plot
+    plt.show()
+
+
 x_observed_values, y_observed_values = GetDataFromFile()
 
 print("x values from csv:", x_observed_values, "\ny values from csv:", y_observed_values)
@@ -40,7 +62,6 @@ print("x values from csv:", x_observed_values, "\ny values from csv:", y_observe
 learning_step = 0.01
 
 threshold_value = 0.0001
-# 0.0001 learning step and 0.0000001 threshold value get really close to the wanted result
 # both the learning step and threshold value are important factors for the accuracy of the results
 # the lower the learning step the closer to a good result it can come
 # the lower the threshold the less of an error between the wanted answer and actual answer will be
@@ -66,3 +87,5 @@ while True:
     initial_value_w2 = next_value_w2
 
 print(f"Final values after {number_of_iterations} iterations:\nw1 = {next_value_w1}\nw2 = {next_value_w2}")
+
+plot_regression_line(x_observed_values, y_observed_values)

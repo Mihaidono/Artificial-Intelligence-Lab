@@ -1,6 +1,7 @@
 import random
 
 import numpy as np
+from sklearn import preprocessing
 
 
 def bipolar_function(x):
@@ -35,3 +36,9 @@ wanted_output = [[1, -1, -1], [-1, 1, -1], [1, -1, -1], [-1, 1, -1], [-1, -1, 1]
 print("Data set:\n", dataset_array)
 print("Weights set:\n", weight_array)
 print("Wanted outputs are:\n", wanted_output)
+
+# normalizing data set
+dataset_array = preprocessing.normalize(dataset_array)
+print("Normalized data set:\n", dataset_array)
+
+

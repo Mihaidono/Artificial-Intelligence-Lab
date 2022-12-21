@@ -1,7 +1,14 @@
 import random
-
 import numpy as np
-from sklearn import preprocessing
+
+
+def normalizeDataSet(dataset):
+    return (dataset - dataset.min(axis=0)) / (dataset.max(axis=0) - dataset.min(axis=0))
+
+
+def GetOutput(dataset, weight):
+    for i in range(0, len(dataset)):
+        break
 
 
 def bipolar_function(x):
@@ -25,20 +32,25 @@ max_error_value = 0.001  # change this to modify the accuracy of the output
 
 learning_step = 0.1  # change this for more iterations and more accurate results
 
-dataset_array = [[45, 85, -1], [50, 43, -1], [40, 80, -1], [55, 42, -1], [200, 43, -1], [48, 40, -1], [195, 41, -1],
-                 [43, 87, -1], [190, 40, -1]]
+dataset_array = np.array(
+    [[45, 85], [50, 43], [40, 80], [55, 42], [200, 43], [48, 40], [195, 41],
+     [43, 87], [190, 40]])
 
-weight_array = initWeightArray(len(dataset_array[1]), len(dataset_array))
+weight_array = np.array(initWeightArray(len(dataset_array[1]), len(dataset_array)))
 
-wanted_output = [[1, -1, -1], [-1, 1, -1], [1, -1, -1], [-1, 1, -1], [-1, -1, 1], [-1, 1, -1], [-1, -1, 1], [1, -1, -1],
-                 [-1, -1, 1]]
+wanted_output = np.array(
+    [[1, -1, -1], [-1, 1, -1], [1, -1, -1], [-1, 1, -1], [-1, -1, 1], [-1, 1, -1], [-1, -1, 1], [1, -1, -1],
+     [-1, -1, 1]])
 
+output = np.array([])
 print("Data set:\n", dataset_array)
 print("Weights set:\n", weight_array)
 print("Wanted outputs are:\n", wanted_output)
 
 # normalizing data set
-dataset_array = preprocessing.normalize(dataset_array)
-print("Normalized data set:\n", dataset_array)
+dataset_array = normalizeDataSet(dataset_array)
+dataset_array = np.hstack((dataset_array, np.full((len(dataset_array), 1), -1)))  # added the column of -1's
+print("Normalized data set :\n", dataset_array)
 
-
+while True:
+    break

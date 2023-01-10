@@ -14,7 +14,7 @@ def GetOutput(subset, weight):
     for i in range(0, len(subset)):
         input_sum = 0
         for j in range(0, len(subset)):
-            input_sum += subset[i] * weight[j][i]
+            input_sum += subset[j] * weight[i][j]
         output_array.append(bipolar_function(input_sum))
     return np.array(output_array)
 
@@ -23,30 +23,26 @@ def bipolar_function(x):
     return 2 / (1 + np.exp(-x)) - 1
 
 
-def initWeightArray(dataset_variable_number):
-    r_array = [-1, 0, 1]
+def initWeightArray():
     aux_array = []
     while len(aux_array) < len(dataset_array[0]):
         mini_array = []
-        while len(mini_array) < dataset_variable_number:
-            mini_array.append(r_array[random.randint(0, len(r_array) - 1)])
+        while len(mini_array) < len(dataset_array[0]):
+            mini_array.append(np.random.uniform(-1, 1))
         aux_array.append(mini_array)
     return np.array(aux_array)
 
 
 def calculateNewWeightArray():
-    next_weights = []
-    for i in range(0, len(weight_array)):
-        node_weight = []
+    next_weights = weight_array
+    for i in range(0, len(next_weights)):
         for j in range(0, len(output)):
-            new_value = weight_array[j][i] + learning_step * (wanted_output[dt_index][j] - output[j]) * (
+            next_weights[j][i] = weight_array[j][i] + learning_step * (wanted_output[dt_index][j] - output[j]) * (
                     1 - output[j] ** 2) * dataset_array[dt_index][i]
-            node_weight.append(new_value)
-        next_weights.append(node_weight)
     return np.array(next_weights)
 
 
-def calculateError(old_error):
+def calculateNextError(old_error):
     next_error = 0
     for k in range(0, len(output)):
         next_error += (wanted_output[dt_index][k] - output[k]) ** 2
@@ -70,7 +66,7 @@ dataset_array = normalizeDataSet(dataset_array)
 dataset_array = np.hstack((dataset_array, np.full((len(dataset_array), 1), -1)))  # added the column of -1's
 print("Normalized data set :\n", dataset_array)
 
-weight_array = initWeightArray(len(dataset_array[0]))
+weight_array = initWeightArray()
 print("Weights set:\n", weight_array)
 print("Wanted outputs are:\n", wanted_output)
 
@@ -88,12 +84,20 @@ while True:
         weight_array = calculateNewWeightArray()
         print(f"Next weights:\n{weight_array}")
 
-        error_value = calculateError(error_value)
+        error_value = calculateNextError(error_value)
         print(f"MAX error value: {max_error_value}\nCurrent error value: {error_value}")
 
         dt_index += 1
     if error_value < max_error_value:
         break
     count += 1
-    # time.sleep(1)
+    # time.sleep(0.5)
 print(f"Solution found after {count} iterations")
+
+print_dataset = [[45, 85], [50, 43], [40, 80], [55, 42], [200, 43], [48, 40], [195, 41],
+                 [43, 87], [190, 40]]
+
+print(f"For the dataset:\n{print_dataset}\n We have:")
+for i in range(0, len(dataset_array)):
+    output = GetOutput(dataset_array[i], weight_array)
+    print(f"Subset {dataset_array[i]}:\nWanted output:\n{wanted_output[i]}\nActual output:\n{output}\n")

@@ -55,6 +55,16 @@ def GetOLOutput(prev_output, weight):
     return bipolar_function(output)
 
 
+def calculateDelta():
+    odt = 0.5 * (wanted_output[dt_index] - ol_output) * (1 - ol_output ** 2)  # outer layer delta
+    input_sum = 0
+    hdt = 0  # hidden layer delta
+    #for i in range(0, len(hl_output)):
+        # input_sum +=
+
+    return odt, hdt
+
+
 learning_step = 50  # for a faster learning rate, its value will decrease in time
 
 max_error_value = 0.001  # change this to modify the accuracy of the output
@@ -87,7 +97,7 @@ while True:
         ol_output = GetOLOutput(hl_output, ol_weights)
         print(f"Outer layer output:\n{ol_output}\n")
 
-        
+        ol_delta, hl_delta = calculateDelta()
 
         dt_index += 1
 

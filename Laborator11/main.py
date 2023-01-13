@@ -1,7 +1,9 @@
 import time
-
 import numpy as np
 
+
+# the following code works only for the example I had in the material, that meaning 2 inputs with -1
+# going into one hidden layer formed out of 3 neurons which go into a single output
 
 def normalizeDataSet(dset):
     return (dset - dset.min(axis=0)) / (dset.max(axis=0) - dset.min(axis=0))
@@ -57,12 +59,21 @@ def GetOLOutput(prev_output, weight):
 
 def calculateDelta():
     odt = 0.5 * (wanted_output[dt_index] - ol_output) * (1 - ol_output ** 2)  # outer layer delta
-    input_sum = 0
-    hdt = 0  # hidden layer delta
-    #for i in range(0, len(hl_output)):
-        # input_sum +=
+    hdt = []  # hidden layer delta
+    for j in range(0, len(hl_output) - 1):
+        hdt.append(0.5 * (1 - hl_output[j] ** 2) * (odt * ol_weights[j]))
+    return hdt, odt
 
-    return odt, hdt
+
+def updateWeights():
+    next_hl_weight = []
+    next_ol_weight = []
+
+    for j in range(0, len(ol_output)):
+        next_ol_weight.append(ol_weights[j] + learning_step * ol_delta * hl_output[j])
+        for i in range(0,len(dataset)):
+            
+    return next_hl_weight, next_ol_weight
 
 
 learning_step = 50  # for a faster learning rate, its value will decrease in time
@@ -97,7 +108,10 @@ while True:
         ol_output = GetOLOutput(hl_output, ol_weights)
         print(f"Outer layer output:\n{ol_output}\n")
 
-        ol_delta, hl_delta = calculateDelta()
+        hl_delta, ol_delta = calculateDelta()
+        # print(f"Outer layer delta: {ol_delta}\nHidden layer delta: {hl_delta}\n")
+
+        hl_weights, ol_weights = updateWeights()
 
         dt_index += 1
 

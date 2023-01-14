@@ -9,12 +9,12 @@ def normalizeDataSet(dset):
     return (dset - dset.min(axis=0)) / (dset.max(axis=0) - dset.min(axis=0))
 
 
-def decreaseLearningStep(step):
-    if step > 1:
-        step -= 1
-    if 1 >= step > 0.1:
-        step -= 0.1
-    return step
+# def decreaseLearningStep(step):
+#    if step > 1:
+#        step -= 1
+#    if 1 >= step > 0.2:
+#        step -= 0.1
+#    return step
 
 
 def initHLWeightArray():
@@ -66,19 +66,27 @@ def calculateDelta():
 
 
 def updateWeights():
-    next_hl_weight = []
-    next_ol_weight = []
+    next_hl_weight = hl_weights
+    next_ol_weight = ol_weights
 
-    for j in range(0, len(ol_output)):
-        next_ol_weight.append(ol_weights[j] + learning_step * ol_delta * hl_output[j])
-        for i in range(0,len(dataset)):
-            
+    for j in range(0, len(hl_output)):
+        next_ol_weight[j] = ol_weights[j] + learning_step * ol_delta * hl_output[j]
+
+    for j in range(0, len(hl_output) - 1):
+        for i in range(0, len(hl_output) - 1):
+            next_hl_weight[j][i] = hl_weights[j][i] + learning_step * hl_delta[j] * dataset[dt_index][i]
+
     return next_hl_weight, next_ol_weight
 
 
-learning_step = 50  # for a faster learning rate, its value will decrease in time
+def calculateNextError(old_error):
+    next_error = 0.5 * ((wanted_output[dt_index] - ol_output) ** 2)
+    return old_error + next_error
 
-max_error_value = 0.001  # change this to modify the accuracy of the output
+
+learning_step = 0.1  # for a faster learning rate, its value will decrease in time
+
+max_error_value = 0.01  # change this to modify the accuracy of the output
 
 dataset = np.array([[45, 85], [50, 43], [40, 80], [187, 107], [55, 42], [200, 43], [48, 40], [195, 41],
                     [43, 87], [192, 105], [190, 40], [188, 100]])
@@ -103,21 +111,24 @@ while True:
         print(f"\n\nSUBSET {dt_index + 1}:")
 
         hl_output = GetHLOutput(dataset[dt_index], hl_weights)
-        print(f"Hidden layer output:\n{hl_output}\n")
+        print(f"Hidden layer output: {hl_output}\n")
 
         ol_output = GetOLOutput(hl_output, ol_weights)
-        print(f"Outer layer output:\n{ol_output}\n")
+        print(f"Outer layer output: {ol_output}\n")
 
         hl_delta, ol_delta = calculateDelta()
-        # print(f"Outer layer delta: {ol_delta}\nHidden layer delta: {hl_delta}\n")
+        print(f"Outer layer delta: {ol_delta}\nHidden layer delta: {hl_delta}\n")
 
+        print(f"OLD Weights:\n\tHidden layer weights:\n{hl_weights}\n\tOuter layer weights:\n{ol_weights}\n")
         hl_weights, ol_weights = updateWeights()
+        print(f"NEW Weights:\n\tHidden layer weights:\n{hl_weights}\n\tOuter layer weights:\n{ol_weights}\n")
 
+        error_value = calculateNextError(error_value)
+        print(f"MAX error value: {max_error_value}\nCurrent error value: {error_value}")
         dt_index += 1
 
     count += 1
-    learning_step = decreaseLearningStep(learning_step)
-
+    # learning_step = decreaseLearningStep(learning_step)
     if error_value < max_error_value:
         break
     # time.sleep(0.5)

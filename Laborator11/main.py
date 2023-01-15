@@ -133,3 +133,14 @@ while True:
         break
     # time.sleep(0.5)
 print(f"Solution found after {count} iterations")
+
+print_dataset = [[45, 85], [50, 43], [40, 80], [187, 107], [55, 42], [200, 43], [48, 40], [195, 41],
+                 [43, 87], [192, 105], [190, 40], [188, 100]]
+
+print(f"For the dataset:\n{print_dataset}\n We have:")
+time.sleep(4)
+for i in range(0, len(dataset)):
+    hl_output = GetHLOutput(dataset[i], hl_weights)
+    ol_output = GetOLOutput(hl_output, ol_weights)
+    print(f"Subset {print_dataset[i]}:\nWanted output:\n{wanted_output[i]}\nActual output:\n{ol_output}\n")
+    time.sleep(2)
